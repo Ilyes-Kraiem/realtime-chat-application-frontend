@@ -1,0 +1,11 @@
+/* Minimal styles for the chat UI */
+.messages {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.messages::-webkit-scrollbar {
+  display: none;
+}
