@@ -2,7 +2,8 @@ import { createContext, useContext, useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 
 const ChatContext = createContext();
-const ENDPOINT = "http://localhost:5000";
+
+const ENDPOINT = process.env.REACT_APP_API_URL;
 
 const ChatProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -12,7 +13,6 @@ const ChatProvider = ({ children }) => {
   const [notification, setNotification] = useState([]);
 
   const socketRef = useRef(null);
-
   const [onlineUsers, setOnlineUsers] = useState([]);
 
   useEffect(() => {
@@ -21,12 +21,19 @@ const ChatProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
+    if (!ENDPOINT) {
+      console.log("❌ REACT_APP_API_URL is missing");
+      return;
+    }
+
     if (!user?._id) return;
-    if (socketRef.current) return; 
+
+    if (socketRef.current) return;
 
     const socket = io(ENDPOINT, {
       transports: ["polling", "websocket"],
       reconnection: true,
+      withCredentials: true,
     });
 
     socketRef.current = socket;
@@ -62,6 +69,16 @@ const ChatProvider = ({ children }) => {
       console.log("❌ socket connect_error:", err.message);
     });
 
+    return () => {
+      socket.off("connect");
+      socket.off("online users");
+      socket.off("user online");
+      socket.off("user offline");
+      socket.off("disconnect");
+      socket.off("connect_error");
+      socket.disconnect();
+      socketRef.current = null;
+    };
   }, [user]);
 
   return (
