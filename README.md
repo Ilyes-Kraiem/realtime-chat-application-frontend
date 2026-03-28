@@ -66,7 +66,7 @@ The application focuses on delivering a smooth user experience with real-time up
 
 ## 🚀 Live Demo
 
-👉 https://your-vercel-link
+👉 https://realtime-chat-application-frontend-iota.vercel.app/
 
 ---
 
@@ -74,7 +74,7 @@ The application focuses on delivering a smooth user experience with real-time up
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/realtime-chat-application-frontend
+git clone https://github.com/Ilyes-Kraiem/realtime-chat-application-frontend
 
 # Navigate to project
 cd realtime-chat-application-frontend
